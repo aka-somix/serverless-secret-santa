@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Persist an item to a DynamoDB table from Lambda
+Resources:
+##########################################################################
+#   DynamoDB                                                            #
+##########################################################################
+  SecretSantaPeopleTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: Username
+        AttributeType: S
+      KeySchema:
+      - AttributeName: Username
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+##########################################################################
+#   Lambda Function                                                      #
+##########################################################################
+  SecretSantaLogic:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../service/
+      Handler: main.handler
+      Runtime: nodejs16.x
+      Timeout: 120
+      Environment:
+        Variables:
+          REGION: 'eu-west-1'
+          PEOPLE_TABLE: !Ref SecretSantaPeopleTable
+          FROM_EMAIL: 'youremail@example.com'
+      Policies:
+        ## Read more about SAM Policy templates at:
+        ## https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - DynamoDBReadPolicy:
+            TableName: !Ref SecretSantaPeopleTable
+
+##########################################################################
+#   OUTPUTS                                                              #
+##########################################################################
+  
+Outputs:
+  LambdaFunction:
+    Value: !Ref SecretSantaLogic
+    Description: Lambda with the Secret Santa logic
+
+  DynamoDbTable:
+    Value: !Ref SecretSantaPeopleTable
+    Description: Table with all Colleagues that will exchange gifts

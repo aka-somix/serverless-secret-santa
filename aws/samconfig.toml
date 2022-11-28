@@ -1,0 +1,15 @@
+ version=1.0
+ [default.global.parameters]
+ stack_name = "secret-santa-medium"
+ 
+ [default.deploy.parameters]
+ region = "eu-west-1"
+ confirm_changeset = true
+ tags = "project=\"secret-santa\""
+ s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-r6g1jivl0z8z"
+  s3_prefix = "secret-santa-medium"
+ capabilities = "CAPABILITY_IAM"
+ disable_rollback = true
+ image_repositories = []
+
+ [default.build.parameters]
