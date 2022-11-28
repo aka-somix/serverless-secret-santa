@@ -37,6 +37,8 @@ Resources:
         ## https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
         - DynamoDBReadPolicy:
             TableName: !Ref SecretSantaPeopleTable
+        - SESCrudPolicy:
+            IdentityName: 'youremail@example.com'
 
 ##########################################################################
 #   OUTPUTS                                                              #
