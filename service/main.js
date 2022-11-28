@@ -47,9 +47,9 @@ exports.handler = async function (event) {
 
   }
 
-  // Send emails
-  for (const pair of pairs) {
-    await sesClient.sendEmail(pair.sender.Email, pair.sender.Name, pair.receiver.Name, pair.receiver.Surname);
-  }
+  // Send out emails
+  await Promise.all(pairs.map(
+    (pair) => sesClient.sendEmail(pair.sender.Email, pair.sender.Name, pair.receiver.Name, pair.receiver.Surname)
+  ));
 
 }
