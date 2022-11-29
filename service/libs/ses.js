@@ -12,7 +12,7 @@ const buildHTMLBody = (senderName, receiverName, receiverSurname) => `
 <p>
 Oh oh oh ${senderName} ✨, <br/>
 
-Serverless Santa drew from the list of good children <strong>${receiverName} ${receiverSurname}</strong> for you.
+Serverless Santa drew from his Nice List: <strong>${receiverName} ${receiverSurname}</strong>.
 <br/>
 Your task will be to find the perfect gift for your beloved colleague.
 </p>
