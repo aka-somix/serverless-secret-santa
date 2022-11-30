@@ -1,25 +1,30 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  Persist an item to a DynamoDB table from Lambda
+  Creates a Serverless Secret Santa Infrastructure to randomly pair people and send them an email with the person to give the gift to.
+
+Parameters:
+  SenderEmail:
+    Type: String
+
 Resources:
-##########################################################################
-#   DynamoDB                                                            #
-##########################################################################
+  ##########################################################################
+  #   DynamoDB                                                            #
+  ##########################################################################
   SecretSantaPeopleTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-      - AttributeName: Username
-        AttributeType: S
+        - AttributeName: Username
+          AttributeType: S
       KeySchema:
-      - AttributeName: Username
-        KeyType: HASH
+        - AttributeName: Username
+          KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
-##########################################################################
-#   Lambda Function                                                      #
-##########################################################################
+  ##########################################################################
+  #   Lambda Function                                                      #
+  ##########################################################################
   SecretSantaLogic:
     Type: AWS::Serverless::Function
     Properties:
@@ -29,21 +34,21 @@ Resources:
       Timeout: 120
       Environment:
         Variables:
-          REGION: 'eu-west-1'
+          REGION: "eu-west-1"
           PEOPLE_TABLE: !Ref SecretSantaPeopleTable
-          FROM_EMAIL: 'youremail@example.com'
+          FROM_EMAIL: $SENDER_EMAIL
       Policies:
         ## Read more about SAM Policy templates at:
         ## https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
         - DynamoDBReadPolicy:
             TableName: !Ref SecretSantaPeopleTable
         - SESCrudPolicy:
-            IdentityName: 'youremail@example.com'
+            IdentityName: $SENDER_EMAIL
 
 ##########################################################################
 #   OUTPUTS                                                              #
 ##########################################################################
-  
+
 Outputs:
   LambdaFunction:
     Value: !Ref SecretSantaLogic
