@@ -36,14 +36,14 @@ Resources:
         Variables:
           REGION: "eu-west-1"
           PEOPLE_TABLE: !Ref SecretSantaPeopleTable
-          FROM_EMAIL: $SENDER_EMAIL
+          FROM_EMAIL: $SenderEmail
       Policies:
         ## Read more about SAM Policy templates at:
         ## https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
         - DynamoDBReadPolicy:
             TableName: !Ref SecretSantaPeopleTable
         - SESCrudPolicy:
-            IdentityName: $SENDER_EMAIL
+            IdentityName: $SenderEmail
 
 ##########################################################################
 #   OUTPUTS                                                              #

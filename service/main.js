@@ -28,12 +28,12 @@ exports.handler = async function (event) {
   // The offset between sender and receiver needs to be 
   // small enough to avoid that sender and receiver are
   // the same person
-  const offset = Math.floor(senders.length / 3);
+  const offset = Math.floor(partecipants.length / 3);
 
   // Iterate over senders to populate the pairs
-  for (let senderIdx = 0; senderIdx < senders.length; senderIdx++) {
+  for (let senderIdx = 0; senderIdx < partecipants.length; senderIdx++) {
     // calculate shifted index
-    const receiverIdx = (senderIdx + offset) % receivers.length;
+    const receiverIdx = (senderIdx + offset) % partecipants.length;
 
     // push the new pair
     pairs.push({
@@ -45,7 +45,11 @@ exports.handler = async function (event) {
 
   // Send out emails
   await Promise.all(pairs.map(
-    (pair) => sesClient.sendEmail(pair.sender.Email, pair.sender.Name, pair.receiver.Name, pair.receiver.Surname)
+    (pair) => sesClient.sendEmail(pair.sender.email, pair.sender.name, pair.receiver.name, pair.receiver.surname)
   ));
 
+  return {
+    code: 200,
+    message: "Oh oh oh, Email send out to everyone!"
+  }
 }
