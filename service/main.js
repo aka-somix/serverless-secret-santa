@@ -19,11 +19,7 @@ exports.handler = async function (event) {
 
   // Shuffle the array to randomise the order.
   // This will be the list of senders
-  const senders = shuffler.shuffle(people);
-
-  // Create a copy of the shuffled array
-  // This will be the list of receiver
-  const receivers = senders.map((entry) => entry);
+  const partecipants = shuffler.shuffle(people);
 
   // Create the pairs by shifting of a constant value
   // the array of receivers
@@ -41,8 +37,8 @@ exports.handler = async function (event) {
 
     // push the new pair
     pairs.push({
-      sender: senders[senderIdx],
-      receiver: receivers[receiverIdx]
+      sender: partecipants[senderIdx],
+      receiver: partecipants[receiverIdx]
     })
 
   }
