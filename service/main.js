@@ -28,7 +28,7 @@ exports.handler = async function (event) {
   // The offset between sender and receiver needs to be 
   // small enough to avoid that sender and receiver are
   // the same person
-  const offset = Math.floor(partecipants.length / 3);
+  const offset = Math.ceil(partecipants.length / 3);
 
   // Iterate over senders to populate the pairs
   for (let senderIdx = 0; senderIdx < partecipants.length; senderIdx++) {

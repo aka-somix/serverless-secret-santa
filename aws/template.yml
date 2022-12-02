@@ -32,6 +32,8 @@ Resources:
       Handler: main.handler
       Runtime: nodejs16.x
       Timeout: 120
+      FunctionUrlConfig:
+        AuthType: NONE
       Environment:
         Variables:
           REGION: "eu-west-1"
