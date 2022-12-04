@@ -15,14 +15,12 @@ const ddb = new DocumentClient({ region: REGION });
 exports.handler = async function (event) {
 
   // Retrieve data from DDB
-  const people = (await ddb.scan({ TableName: PEOPLE_TABLE }).promise()).Items;
+  const data = await ddb.scan({ TableName: PEOPLE_TABLE }).promise();
 
-  // Shuffle the array to randomise the order.
-  // This will be the list of senders
-  const partecipants = shuffler.shuffle(people);
+  // Shuffle the Items inside dynamoDB table to randomise the order.
+  const partecipants = shuffler.shuffle(data.Items);
 
-  // Create the pairs by shifting of a constant value
-  // the array of receivers
+  // Array that will hold all the pairs of gift sender and receiver
   const pairs = [];
 
   // The offset between sender and receiver needs to be 
@@ -30,12 +28,13 @@ exports.handler = async function (event) {
   // the same person
   const offset = Math.ceil(partecipants.length / 3);
 
-  // Iterate over senders to populate the pairs
+  // Iterate over the partecipants and create the pairs based 
+  // on the 2 indexes
   for (let senderIdx = 0; senderIdx < partecipants.length; senderIdx++) {
-    // calculate shifted index
+
+    // compute the shifted index
     const receiverIdx = (senderIdx + offset) % partecipants.length;
 
-    // push the new pair
     pairs.push({
       sender: partecipants[senderIdx],
       receiver: partecipants[receiverIdx]
