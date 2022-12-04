@@ -1,7 +1,7 @@
 # Serverless Secret Santa 🎅
 A story about how Serverless saved the Christmas ✨
 
-This repository references a Medium Article that you can read [HERE]()
+This repository references a Medium Article that you can read [HERE](https://medium.com/@salvatorecirone/build-a-secret-santa-on-aws-aa47cac1a7ad)
 
 <br>
 <br>
